@@ -27,12 +27,16 @@
 
 */
 
+window.addEventListener("load", findKeyWords);
+// window.addEventListener("load", makeKeyStyles);
 
+function findKeyWords() {
 
+   var keywords = document.createElement("aside");
+   keywords.setAttribute("id", "keywords");
+   // Insert h1 here
 
-
-
-
+}
 
 /* Supplied Functions */
 
