@@ -27,14 +27,106 @@
 
 */
 
+// Run functions upon page loading
 window.addEventListener("load", findKeyWords);
-// window.addEventListener("load", makeKeyStyles);
+window.addEventListener("load", makeKeyStyles);
 
 function findKeyWords() {
+   // Prepare keyword list
 
-   var keywords = document.createElement("aside");
-   keywords.setAttribute("id", "keywords");
-   // Insert h1 here
+   var key = document.createElement("aside");
+   key.setAttribute("id", "keywords");
+   
+   var mainHeading = document.createElement("h1");
+   mainHeading.innerHTML = "Keyword List";
+   var outlineList = document.createElement("ol");
+
+   // Keywords are within <dfn>
+   var keyWordElems = document.querySelectorAll("dfn");
+   var keywords = [];
+   var linkID = [];
+   
+   for (var i = 0; i < keyWordElems.length; i++){
+
+      // Take inner html and put it into an array
+      keywords[i] = keyWordElems[i].innerHTML;
+
+      // Change keyword's text to be more fitting for ids
+      linkID[i] = replaceWS(keywords[i]);
+      
+      keyWordElems[i].setAttribute("id", linkID[i]);
+      /*console.log(keyWordElems[i]);*/
+
+   }
+
+   // Sort Keywords into alphabetical order
+   keywords.sort();
+
+   for (var i = 0; i < keywords.length; i++){
+
+      // Setup for list and links
+      var keyWordListItem = document.createElement("li");
+      var keyWordLink = document.createElement("a")
+      keyWordLink.innerHTML = keywords[i];
+
+      // Run this again now that keywords is sorted
+      linkID[i] = replaceWS(keywords[i]);
+      
+      // Set ids to links
+      keyWordLink.setAttribute("href","#"+linkID[i]);
+
+      // Append to list
+      keyWordListItem.append(keyWordLink);
+      outlineList.append(keyWordListItem);
+
+   }
+
+   key.appendChild(mainHeading);
+   key.appendChild(outlineList);
+
+   // Append to document
+   var target = document.getElementById("doc");
+   target.insertBefore(key, target.firstChild);
+
+
+}
+
+function makeKeyStyles() {
+
+   var pageStyle = document.createElement("link");
+   pageStyle.setAttribute("href", "./css/bc_keys.css");
+   pageStyle.setAttribute("rel", "stylesheet");
+   
+   // Apply styles to stylesheet
+   document.head.appendChild(pageStyle);
+
+   document.styleSheets[document.styleSheets.length-1].insertRule("aside#keywords { \
+         border: 3px solid rgb(101, 101, 101); \
+         float: right; \
+         margin: 20px 0px 20px 20px; \
+         padding: 10px; \
+         width: 320px; \
+      }", 0);
+
+   document.styleSheets[document.styleSheets.length-1].insertRule("aside#keywords h1 { \
+         font-size: 2em; \
+         margin:5px; \
+         text-align: center; \
+   }", 1);
+
+   document.styleSheets[document.styleSheets.length-1].insertRule("aside#keywords ol { \
+         margin-left: 20px; \
+         font-size: 1.2em; \
+   }", 2);
+
+   document.styleSheets[document.styleSheets.length-1].insertRule("aside#keywords ol li { \
+         line-height: 1.5em; \
+   }", 3);
+
+   document.styleSheets[document.styleSheets.length-1].insertRule("aside#keywords ol li a { \
+         color: rgb(101, 101, 101); \
+         text-decoration:none; \
+   }", 4);
 
 }
 
